@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import Layout from "./Layout";
+import Dashboard from "./pages/Dashboard";
+import Historico from "./pages/Historico";
+import ConfigCameras from "./pages/ConfigCameras";
+import ConfigUsers from "./pages/ConfigUsers";
+import Login from "./pages/Login";
 
-function App() {
+export default function App() {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  if (!currentUser) {
+    return <Login onLogin={setCurrentUser} />;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Router>
+      <Routes>
+        <Route 
+          path="/" 
+          element={<Layout currentUser={currentUser} onLogout={() => setCurrentUser(null)} />}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Route index element={<Dashboard currentUser={currentUser} />} />
+          <Route path="historico" element={<Historico currentUser={currentUser} />} />
+          <Route path="config" element={<ConfigCameras currentUser={currentUser} />} />
+          <Route path="usuarios" element={<ConfigUsers currentUser={currentUser} />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
-
-export default App;
