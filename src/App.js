@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
 import Layout from "./Layout";
 import Dashboard from "./pages/Dashboard";
@@ -26,6 +26,9 @@ export default function App() {
           <Route path="config" element={<ConfigCameras currentUser={currentUser} />} />
           <Route path="usuarios" element={<ConfigUsers currentUser={currentUser} />} />
         </Route>
+        
+        {/* Redirecionamento para login */}
+        <Route path="/login" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
